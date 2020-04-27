@@ -7,7 +7,7 @@ from io import BytesIO
 def embed_image(video_id):
     image = get_image(video_id)
     w, h = image.size
-    title = get_title(video_id)
+    title = elipsis(get_title(video_id), 25)
 
     insert_play_button(image, w, h)
 
@@ -19,6 +19,9 @@ def embed_image(video_id):
 
     return byte_arr
 
+
+def elipsis(_str, char_stop):
+    return _str[:char_stop] + (_str[char_stop:] and '...')
 
 def get_title(video_id):
     response = requests.get(
