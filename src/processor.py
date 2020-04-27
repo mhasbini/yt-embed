@@ -29,7 +29,7 @@ def get_title(video_id):
 
 
 def get_image(video_id):
-    url = f"https://i.ytimg.com/vi/{video_id}/0.jpg"
+    url = f"https://i.ytimg.com/vi/{video_id}/sddefault.jpg"
     response = requests.get(url)
 
     return Image.open(BytesIO(response.content))
