@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <meta name=viewport content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <main>
+    <h1>YouTube embed image overlay</h1>
+
+    <div id="before-after">
+      <img src="{{url_for('static', filename='before.jpg')}}" />
+
+      <div id="arrow-left" class="icon">
+        <svg width="5em" height="5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M8.146 4.646a.5.5 0 01.708 0l3 3a.5.5 0 010 .708l-3 3a.5.5 0 01-.708-.708L10.793 8 8.146 5.354a.5.5 0 010-.708z" clip-rule="evenodd"/>
+          <path fill-rule="evenodd" d="M4 8a.5.5 0 01.5-.5H11a.5.5 0 010 1H4.5A.5.5 0 014 8z" clip-rule="evenodd"/>
+        </svg>
+      </div>
+
+      <div id="arrow-down" class="icon">
+        <svg width="5em" height="5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M4.646 7.646a.5.5 0 01.708 0L8 10.293l2.646-2.647a.5.5 0 01.708.708l-3 3a.5.5 0 01-.708 0l-3-3a.5.5 0 010-.708z" clip-rule="evenodd"/>
+          <path fill-rule="evenodd" d="M8 4.5a.5.5 0 01.5.5v5a.5.5 0 01-1 0V5a.5.5 0 01.5-.5z" clip-rule="evenodd"/>
+        </svg>
+      </div>
+
+      <img src="{{url_for('static', filename='after.png')}}" />
+    </div>
+
+    <div id="description">
+      <p>
+        Submit video id (e.g. https://www.youtube.com/watch?v=<mark>ChlK4vq8Nwk</mark>) in the form bellow.
+        <br />
+        Or append <code>/embed?v=[video_id]</code> directly.
+      </p>
+
+      <form action="#" target="_blank">
+        <label for="id">Video id:</label>
+        <input type="text" id="id" pattern="[A-Za-z0-9_-]{11}" placeholder="3BYNj6Yvl8I" value="3BYNj6Yvl8I" required size="40">
+        <button type="submit" id="submit" formtarget="_blank">Submit</button><br/>
+      </form>
+
+      <p>
+        Examples:
+
+        <ul>
+          <li><a href="/embed?v=3BYNj6Yvl8I" target="_blank">/embed?v=3BYNj6Yvl8I</a></li>
+          <li><a href="/embed?v=34rhNOj5YSM" target="_blank">/embed?v=34rhNOj5YSM</a></li>
+        </ul>
+      </p>
+    </div>
+  </main>
+
+  <footer id="footer">Made with <span id="heart"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path d="M12 10.375a4.375 4.375 0 0 0-8.75 0c0 1.127.159 2.784 1.75 4.375L12 20s5.409-3.659 7-5.25s1.75-3.248 1.75-4.375a4.375 4.375 0 0 0-8.75 0" fill="#e25555"/></svg>
+</span> by <a href="https://mhasbini.com/" target="_blank">mhasbini</a></p></footer>
+
+  <!-- <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='index.css')}}" /> -->
+
+  <script type="text/javascript">
+document.getElementById("submit").onclick = function() {
+  id = document.getElementById("id").value;
+
+  location.href = "/embed?v=" + id;
+  return false;    
+}
+  </script>
+
+  <style type="text/css">
+body {
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #eee;
+  color: #000;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+#heart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#heart > svg {
+  animation: pound 0.35s infinite alternate;
+  color: #e25555
+}
+
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+  margin: 1em;
+}
+
+#before-after {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+img {
+  max-width: 600px;
+  width: 100%;
+  filter: drop-shadow(2px 2px 5px #e25555);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 .5em;
+}
+
+a,
+a:focus,
+a:visited {
+  color: inherit;
+}
+
+#arrow-down {
+  display: none;
+}
+
+#footer {
+  text-align: center;
+  margin: 1em;
+}
+
+@keyframes pound {
+  to {
+    transform: scale(1.1);
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  #before-after {
+    flex-direction: column;
+  }
+
+  #arrow-down {
+    display: block;
+  }
+
+  #arrow-left {
+    display: none;
+  }
+}
+
+input[type=text] {
+  display: inline-block;
+  width: calc(100% - 1rem);
+  max-width: 400px;
+  border: 1px solid #888;
+  padding: .375rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  background-color: #fff;
+  background-clip: padding-box;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  border-radius: 0;
+  margin-bottom: 1rem;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: .25rem;
+}
+
+button {
+  display: inline-block;
+  border: #001933 1px solid;
+  background: #e25555;
+  color: #fff;
+  display: inline-block;
+  /*padding: .1rem .75rem;*/
+  height: calc(24px + 6*2px + 1px);
+  font-size: .9rem;
+  font-weight: 400;
+  line-height: 1.5;
+  cursor: pointer;
+  border-radius: 0;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+ </style>
+</body>
+</html>
