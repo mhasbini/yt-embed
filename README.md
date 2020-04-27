@@ -32,3 +32,7 @@ Here's how it'd look:
 [![](https://yt-embed.herokuapp.com/embed?v=3BYNj6Yvl8I)](http://www.youtube.com/watch?v=3BYNj6Yvl8I "Video Title")
 ```
 
+## Deployment & Hosting
+
+I used [heorku](https://heroku.com/) for deployment. The app is hosted on https://yt-embed.herokuapp.com/
+

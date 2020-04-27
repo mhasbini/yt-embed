@@ -1,0 +1,5 @@
+TODO
+
+FLASK_APP=src/server.py flask run
+
+add Arabic language support (e.g. https://www.youtube.com/watch?v=GbCnfeCvf3U)
