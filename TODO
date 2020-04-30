@@ -5,3 +5,6 @@ FLASK_APP=src/server.py flask run
 pipenv run gunicorn -w 4 -b 0.0.0.0:8080 wsgi:app
 
 add Arabic language support (e.g. https://www.youtube.com/watch?v=GbCnfeCvf3U)
+
+Configure sizes (which size to use)
+Add dropdown to the index form
