@@ -2,6 +2,12 @@
 
 A tool to add more visual cue when embedding YouTube videos in GitHub.
 
+## Run app localy
+
+- Make sure to have [nix package manager](https://nixos.org/download.html) installed.
+- Clone repo & cd into it.
+- Run: `nix-shell`
+- Inside the shell run `gunicorn -w 4 -b 0.0.0.0:8080 wsgi:app` and visit http://localhost:8080/
 
 ## Example
 
