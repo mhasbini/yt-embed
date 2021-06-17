@@ -14,8 +14,9 @@ def hello():
 @app.route("/embed")
 def embed():
     video_id = request.args.get("v", None)
+    img = request.args.get("img", "sddefault")
 
-    return send_file(BytesIO(embed_image(video_id)), mimetype="image/png")
+    return send_file(BytesIO(embed_image(video_id, img)), mimetype="image/png")
 
 
 if __name__ == "__main__":

@@ -4,8 +4,9 @@ import requests
 from io import BytesIO
 
 
-def embed_image(video_id):
-    image = get_image(video_id)
+def embed_image(video_id, img):
+    image = get_image(video_id, img)
+
     w, h = image.size
     title = elipsis(get_title(video_id), 25)
 
@@ -31,9 +32,11 @@ def get_title(video_id):
     return response.json()["title"]
 
 
-def get_image(video_id):
-    url = f"https://img.youtube.com/vi/{video_id}/sddefault.jpg"
+def get_image(video_id, img):
+    url = f"https://img.youtube.com/vi/{video_id}/{img}.jpg"
     response = requests.get(url)
+
+    print("url", url)
 
     return Image.open(BytesIO(response.content))
 
