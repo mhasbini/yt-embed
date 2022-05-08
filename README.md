@@ -31,14 +31,71 @@ This tool will automate this process and add visial cues similar to an embeded y
 
 Here's how it'd look:
 
-[![](https://yt-embed.herokuapp.com/embed?v=3BYNj6Yvl8I)](http://www.youtube.com/watch?v=3BYNj6Yvl8I "Video Title")
+[![](https://yt-embed.live/embed?v=3BYNj6Yvl8I)](http://www.youtube.com/watch?v=3BYNj6Yvl8I "Video Title")
 
 
 ```
-[![](https://yt-embed.herokuapp.com/embed?v=3BYNj6Yvl8I)](http://www.youtube.com/watch?v=3BYNj6Yvl8I "Video Title")
+[![](https://yt-embed.live/embed?v=3BYNj6Yvl8I)](http://www.youtube.com/watch?v=3BYNj6Yvl8I "Video Title")
 ```
 
 ## Deployment & Hosting
 
-I used [heorku](https://heroku.com/) for deployment. The app is hosted on https://yt-embed.herokuapp.com/
+### systemd service
 
+```
+# cat /lib/systemd/system/yt-embed.service
+[Unit]
+Description=yt-embed
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5s
+WorkingDirectory=/home/ubuntu/yt-embed
+ExecStart=/home/ubuntu/.nix-profile/bin/nix-shell -I /home/ubuntu/.nix-defexpr/channels --run "gunicorn -w 4 -b 0.0.0.0:9070 wsgi:app"
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### nginx config
+
+```
+$ cat /etc/nginx/sites-enabled/yt-embed
+server {
+    server_name yt-embed.live www.yt-embed.live;
+
+    location / { 
+        proxy_pass http://localhost:9070;
+    }
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/yt-embed.live/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/yt-embed.live/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+}
+
+server {
+    if ($host = www.yt-embed.live) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = yt-embed.live) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    server_name yt-embed.live www.yt-embed.live;
+    listen 80;
+    return 404; # managed by Certbot
+
+
+
+
+}
+```
